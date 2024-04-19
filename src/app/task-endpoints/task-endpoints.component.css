@@ -1,0 +1,21 @@
+.task-container{
+    display: table;
+    width: 100%;
+    
+}
+.header-item,.task-div{
+display: table-cell;
+padding: 8px;
+   border: 1px solid #ccc;
+   
+}
+.let{
+    display: table-row;
+}
+.header{
+    display: table-row;
+}
+.header-item{
+    font-weight: 500;
+    font-size: medium;
+}

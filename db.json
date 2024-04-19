@@ -1,0 +1,146 @@
+{
+  "tasks": [
+    {
+      "name": "Connecting backend to frotend",
+      "description": "Using springboot",
+      "status": "Completed",
+      "id": "8"
+    },
+    {
+      "id": "9",
+      "name": "smart insure",
+      "description": "started team work",
+      "status": "Pending",
+      "created_at": "2024-04-04T09:51:49.083526Z",
+      "updated_at": "2024-04-04T09:51:49.083526Z"
+    },
+    {
+      "id": "10",
+      "name": "tasks",
+      "description": "connecting angular and django",
+      "status": "Pending",
+      "created_at": "2024-04-06T23:12:48.036780Z",
+      "updated_at": "2024-04-06T23:12:48.036780Z"
+    },
+    {
+      "id": "12",
+      "name": "smart research",
+      "description": "smart insure reserach",
+      "status": "Completed",
+      "created_at": "2024-04-08T05:58:01.607211Z",
+      "updated_at": "2024-04-08T05:58:01.607211Z"
+    },
+    {
+      "id": "13",
+      "name": "devops",
+      "description": "using springboot",
+      "status": "Pending",
+      "created_at": "2024-04-08T06:09:43.636709Z",
+      "updated_at": "2024-04-08T06:09:43.636709Z"
+    },
+    {
+      "id": "14",
+      "name": "Finance",
+      "description": "pending money",
+      "status": "Pending",
+      "created_at": "2024-04-08T06:11:45.095924Z",
+      "updated_at": "2024-04-08T06:11:45.095924Z"
+    },
+    {
+      "name": "Repeat",
+      "description": "repeat1",
+      "status": "Completed",
+      "id": "17"
+    },
+    {
+      "id": "19",
+      "name": "error solving",
+      "description": "Data fetch",
+      "status": "Pending",
+      "created_at": "2024-04-08T06:30:58.923114Z",
+      "updated_at": "2024-04-08T06:30:58.923114Z"
+    },
+    {
+      "id": "20",
+      "name": "serializer",
+      "description": "task serializer",
+      "status": "Completed",
+      "created_at": "2024-04-08T06:37:39.396071Z",
+      "updated_at": "2024-04-08T06:37:39.396071Z"
+    },
+    {
+      "id": "22",
+      "name": "response",
+      "description": "http",
+      "status": "Pending",
+      "created_at": "2024-04-08T06:44:21.578237Z",
+      "updated_at": "2024-04-08T06:44:21.578237Z"
+    },
+    {
+      "name": "Serializer",
+      "description": "instance",
+      "status": "Completed",
+      "id": "23"
+    },
+    {
+      "name": "browser",
+      "description": "Change browser",
+      "status": "Pending",
+      "id": "25"
+    },
+    {
+      "id": "80a7",
+      "name": "Updating tasks",
+      "description": "updating ui",
+      "status": "Pending"
+    },
+    {
+      "name": "toast message",
+      "description": "Using snackbar",
+      "status": "Pending",
+      "id": "a1ff"
+    },
+    {
+      "id": "0296",
+      "name": "Load T",
+      "description": "To the user interface",
+      "status": "Completed"
+    },
+    {
+      "id": "0364",
+      "name": "Smart Insure",
+      "description": "Css",
+      "status": "Cancelled"
+    },
+    {
+      "id": "3d83",
+      "name": "Modal",
+      "description": "Creating task",
+      "status": "Completed"
+    },
+    {
+      "name": "Angular",
+      "description": "Reusing components",
+      "status": "Completed",
+      "id": "67be"
+    },
+    {
+      "id": "c6a1",
+      "name": "Angular",
+      "description": "Using snackbar",
+      "status": "Cancelled"
+    },
+    {
+      "id": "17d5",
+      "name": "Angular again",
+      "description": "filtered tasks",
+      "status": "Cancelled"
+    },
+    {
+      "id": "a350",
+      "name": "Filter tasks",
+      "description": "Adding ",
+      "status": "Cancelled"
+    }
+  ]
+}
