@@ -1,16 +1,6 @@
 <mat-toolbar color="primary">
   <span style="margin-left: 100px">Task Manager</span>
-  <!-- <mat-tab-group #tabGroup [selectedIndex]="getTabIndex(selectedStatus)" class="tab-buttons">
-    <mat-tab label="Completed" class="tab-button" >
-     <app-task-endpoints *ngIf="selectedStatus === 'Completed'"></app-task-endpoints>
-   </mat-tab>
-   <mat-tab label="Pending" class="tab-button" >
-     <app-task-endpoints *ngIf="selectedStatus === 'Pending'"></app-task-endpoints>
-   </mat-tab>
-   <mat-tab label="Cancelled" class="tab-button" >
-     <app-task-endpoints *ngIf="selectedStatus === 'Cancelled'"></app-task-endpoints>
-   </mat-tab>
-   </mat-tab-group> -->
+  
 
   <button
     class="btn btn-primary"
@@ -20,17 +10,11 @@
     Add Task
   </button>
 
-  <!-- <button
-    class="btn btn-primary"
-    style="margin-left: 10px;"
-    (click)="taskEndpoints.applyFilter('Completed')"
-  >
-    Completed
-  </button> -->
+ 
 
-  <!-- <button (click)="drawer.toggle()" style="margin-left: 10px" mat-icon-button> -->
+  
   <mat-icon (click)="drawer.toggle()" style="margin-left: 10px">menu</mat-icon>
-  <!-- </button> -->
+ 
 </mat-toolbar>
 
 <mat-drawer-container autosize>
@@ -59,10 +43,11 @@
   <mat-drawer-content>
     <mat-card>
       <mat-card-header>
-        <mat-card-title style="margin-left: 500px">Task List</mat-card-title>
+        <!-- <mat-card-title style="margin-left: 500px">Task List</mat-card-title> -->
+        <app-tabs ></app-tabs>
       </mat-card-header>
       <mat-card-content>
-        <app-task-endpoints></app-task-endpoints>
+        <app-task-endpoints [selectedStatus]="selectedStatus" ></app-task-endpoints>
       </mat-card-content>
     </mat-card>
   </mat-drawer-content>

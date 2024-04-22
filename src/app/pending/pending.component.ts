@@ -34,7 +34,7 @@ export class PendingComponent {
 
   applyFilter(): void {
     if (this.selectedStatus === 'Pending') {
-      this.filteredPendingTasks = this.pendingTasks.filter(task => task.status === this.selectedStatus);
+      this.filteredPendingTasks = this.pendingTasks.filter(task => task.status === 'Pending');
     } else {
       this.filteredPendingTasks = [];
     }

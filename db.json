@@ -1,12 +1,6 @@
 {
   "tasks": [
     {
-      "name": "Connecting backend to frotend",
-      "description": "Using springboot",
-      "status": "Completed",
-      "id": "8"
-    },
-    {
       "id": "9",
       "name": "smart insure",
       "description": "started team work",
@@ -45,12 +39,6 @@
       "status": "Pending",
       "created_at": "2024-04-08T06:11:45.095924Z",
       "updated_at": "2024-04-08T06:11:45.095924Z"
-    },
-    {
-      "name": "Repeat",
-      "description": "repeat1",
-      "status": "Completed",
-      "id": "17"
     },
     {
       "id": "19",
@@ -137,10 +125,16 @@
       "status": "Cancelled"
     },
     {
-      "id": "a350",
       "name": "Filter tasks",
-      "description": "Adding ",
-      "status": "Cancelled"
+      "description": "Deletion",
+      "status": "Cancelled",
+      "id": "a350"
+    },
+    {
+      "id": "f68d",
+      "name": "smart insure",
+      "description": "css",
+      "status": "Completed"
     }
   ]
 }

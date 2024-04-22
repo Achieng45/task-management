@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   OnInit,
@@ -8,6 +9,7 @@ import {
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TaskEndpointsComponent } from './task-endpoints/task-endpoints.component';
+import { TabsComponent } from './tabs/tabs.component';
 import { HttpClientModule } from '@angular/common/http';
 import {
   FormBuilder,
@@ -48,7 +50,6 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
     MatCardModule,
     MatToolbarModule,
     HttpClientXsrfModule,
-    
     NavbarComponent,
     MatSidenavModule,
     CommonModule,
@@ -59,8 +60,8 @@ import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
     MatFormFieldModule,
     MatOption,
     MatSnackBarModule,
-    MatTabsModule
-    
+    MatTabsModule,
+    TabsComponent,
   ],
 })
 export class AppComponent implements OnInit {
@@ -82,7 +83,7 @@ export class AppComponent implements OnInit {
     private modalService: NgbModal,
     private taskservice: TaskServiceService,
     private fb: FormBuilder,
-    private snackBar:MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
   ngOnInit(): void {
     this.loadTasks();
@@ -95,9 +96,9 @@ export class AppComponent implements OnInit {
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
   }
+
   addTask() {
     this.taskservice.createTask(this.taskform.value).subscribe((response) => {
-      
       this.tasks.push(response);
       this.taskEndpoints.applyFilter(this.selectedStatus);
       this.taskform.reset();
@@ -128,40 +129,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  
-
   onStatusSelected(): void {
     this.taskEndpoints.applyFilter(this.selectedStatus);
   }
-
-  // selectTabBasedOnStatus(): void {
-  //   switch (this.selectedStatus) {
-  //     case 'Completed':
-  //       this.tabGroup.selectedIndex = 0; // Index of the Completed tab
-  //       break;
-  //     case 'Pending':
-  //       this.tabGroup.selectedIndex = 1; // Index of the Pending tab
-  //       break;
-  //     case 'Cancelled':
-  //       this.tabGroup.selectedIndex = 2; // Index of the Cancelled tab
-  //       break;
-  //     // Add more cases as needed
-  //     default:
-  //       this.tabGroup.selectedIndex = -1; // No tab selected
-  //       break;
-  //   }
-  // }
-  // getTabIndex(status: string): number {
-  //   switch (status) {
-  //     case 'Completed':
-  //       return 0;
-  //     case 'Pending':
-  //       return 1;
-  //     case 'Cancelled':
-  //       return 2;
-  //     default:
-  //       return -1;
-  //   }
-  // }
-
 }
