@@ -1,119 +1,200 @@
 
-<div class="task-container" >
- 
-    <div class="header">
-        <div class="header-item">Name</div>
-        <div class="header-item">Description</div>
-        <div class="header-item">Status</div>
-        <div class="header-item">Actions</div>
-        
-    </div>
-    <div class="let" *ngFor="let task of filteredTasks ">
-    <div class="task-div"><p>{{task.name}}</p></div>
-    <div class="task-div"><p>{{task.description}}</p></div>
-    <div class="task-div"><p>{{task.status}}</p></div>
-    <div class="task-div">
-       
-        <button class="btn btn-info" style="margin-left: 10px;" (click)="OpenViewTask(viewtaskmodal,task)">View</button>
-        <button class="btn btn-primary" style="margin-left: 10px;" (click)="openupdatetask(AddorUpdateTaskModal,task)">Update</button>
-        <button class="btn btn-danger" style="margin-left: 10px;" (click)="opendeletemodal(deletetaskmodal,task)">Delete</button>
-    </div>
-</div>
+<div class="task-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let task of Tasks">{{task.name}}</td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let task filteredTasks">{{task.description}}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let task of filteredTasks">{{task.status}}</td>
+    </ng-container>
+   
 
-</div>
-
-<ng-template #viewtaskmodal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Task Details</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      
-    </button>
-  </div>
-  <div class="modal-body">
-    <div>
-      <p>Task Name: {{ selectedTask?.name }}</p>
-      <p>Task Description: {{ selectedTask?.description }}</p>
-      <p>Task Status: {{ selectedTask?.status }}</p>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let task of filteredTasks">
+        <div class="icon">
+          <div class="button">
+      <button mat-fab color="primary"  (click)="OpenViewTask(viewtaskmodal, task)"><mat-icon>visibility</mat-icon></button>
+      </div>
+      <div class="button">
+      <button mat-fab color="primary" (click)="openupdatetask(AddorUpdateTaskModal, task)"> <mat-icon>edit</mat-icon></button>
+     </div>
+    <div class="button">
+    <button mat-fab color="primary"  (click)="opendeletemodal(deletetaskmodal, task)"> <mat-icon>delete</mat-icon>  </button> 
+     </div> 
+   </div>
+    </ng-container>
     
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('close click')">Close</button>
-  </div>
-</ng-template>
-<ng-template #deletetaskmodal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Delete Employee</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to delete this task?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
-    <button type="button" class="btn btn-danger" (click)="DeleteTask()">Delete</button>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('close click')">Close</button>
-  </div>
-</ng-template>
+    <tr mat-header-row *matHeaderRowDef="['name', 'description', 'status', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'description', 'status', 'actions'];"></tr>
+     </table>
+    
+     
+     <mat-paginator [pageSizeOptions]="[5, 10, 30]"
+     showFirstLastButtons
+     aria-label="Select page of periodic elements">
 
-<ng-template #AddorUpdateTaskModal let-modal>
-  <div class="modal-header">
-      <h4 class="modal-title"> {{ action === 'add' ? 'Add Task' : 'Update Task' }}</h4>
-      <button type="button" class="btn-close" aria-label="Close" id="modal-btn-close" (click)="modal.dismiss('Cross click')">
-        
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="col">
-<form [formGroup]="taskform" (ngSubmit)="action ==='add'?addTask():updatetask1()">
-  <div class="formgroup">
-      <label for="name"> Task name</label>
-      <input type="text" class="form-control" formControlName="name">
-      <div *ngIf="namectrl.invalid && (namectrl.dirty || namectrl.touched)" class="alert alert-danger">
-          <div *ngIf="namectrl.errors?.required"> Name is required</div>
-  </div>
-</div>
-<div class="formgroup">
-  <label for="description"> Description</label>
-  <input type="text" class="form-control" formControlName="description">
-  <div *ngIf="descriptionctrl.invalid && (descriptionctrl.dirty || descriptionctrl.touched)" class="alert alert-danger">
-      <div *ngIf="descriptionctrl.errors?.required"> Description is required</div>
-</div>
+</mat-paginator>
 </div>
 
-<div class="formgroup">
-  <label for="status"> Status</label>
-  <input type="text" class="form-control" formControlName="status">
-  <div *ngIf="statusctrl.invalid && (statusctrl.dirty || statusctrl.touched)" class="alert alert-danger">
-      <div *ngIf="statusctrl.errors?.required"> Status is required</div>
-</div>
-</div>
-<div>
-  <button type="submit" class="btn btn-primary" [disabled]="taskform.invalid" style="margin-top: 10px;">
-    {{ action === 'add' ? 'Add' : 'Update' }} Task
-  </button>
-</div>
-</form>
-</div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="modal.close('close click')">Close</button>
-</div>
-</ng-template>
+      <!-- Modal templates -->
+     <ng-template #deletetaskmodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Employee</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this task?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="modal.dismiss('cancel')"
+        >
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger" (click)="DeleteTask()">
+          Delete
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          (click)="modal.close('close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
 
 
 
+    <ng-template #viewtaskmodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Task Details</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <p>Task Name: {{ selectedTask?.name }}</p>
+          <p>Task Description: {{ selectedTask?.description }}</p>
+          <p>Task Status: {{ selectedTask?.status }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          (click)="modal.close('close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>
 
 
-
-
-
-
-
-
-
-
+    <ng-template #AddorUpdateTaskModal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title">
+          {{ action === "add" ? "Add Task" : "Update Task" }}
+        </h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          id="modal-btn-close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="col">
+          <form
+            [formGroup]="taskform"
+            (ngSubmit)="action === 'add' ? addTask() : updatetask1()"
+          >
+            <div class="formgroup">
+              <label for="name"> Task name</label>
+              <input type="text" class="form-control" formControlName="name" />
+              <div
+                *ngIf="namectrl.invalid && (namectrl.dirty || namectrl.touched)"
+                class="alert alert-danger"
+              >
+                <div *ngIf="namectrl.errors?.required">Name is required</div>
+              </div>
+            </div>
+            <div class="formgroup">
+              <label for="description"> Description</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="description"
+              />
+              <div
+                *ngIf="
+                  descriptionctrl.invalid &&
+                  (descriptionctrl.dirty || descriptionctrl.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="descriptionctrl.errors?.required">
+                  Description is required
+                </div>
+              </div>
+            </div>
+    
+            <div class="formgroup">
+              <label for="status"> Status</label>
+              <input type="text" class="form-control" formControlName="status" />
+              <div
+                *ngIf="
+                  statusctrl.invalid && (statusctrl.dirty || statusctrl.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div *ngIf="statusctrl.errors?.required">Status is required</div>
+              </div>
+            </div>
+            <div>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="taskform.invalid"
+                style="margin-top: 10px"
+              >
+                {{ action === "add" ? "Add" : "Update" }} Task
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          (click)="modal.close('close click')"
+        >
+          Close
+        </button>
+      </div>
+    </ng-template>  
+  
+  
+ 

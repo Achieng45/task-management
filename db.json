@@ -135,6 +135,12 @@
       "name": "smart insure",
       "description": "css",
       "status": "Completed"
+    },
+    {
+      "id": "2fc0",
+      "name": "devops",
+      "description": "spring boot and react",
+      "status": "Completed"
     }
   ]
 }

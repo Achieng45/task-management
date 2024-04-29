@@ -1,0 +1,165 @@
+
+<mat-toolbar color="primary" class="mat-elevation-z8">
+    <span style="margin-left: 100px">Task Manager</span>
+    <button class="add" mat-raised-button color="accent" (click)="openAddTaskModal(AddorUpdateTaskModal)">
+      <mat-icon>add</mat-icon> Add task
+    </button>
+    
+    <mat-icon (click)="drawer.toggle()"  style="margin-left: 10px">menu</mat-icon> 
+    <button   routerLink="charts"   mat-button><mat-icon>analytics</mat-icon> analytics</button>
+  
+  </mat-toolbar> 
+  
+  
+  <mat-drawer-container autosize>
+    
+    <mat-drawer class="matdrawer" #drawer opened="true" mode="side" position="end">
+     <mat-nav-list>
+       
+     <div style="margin-top: 30px;margin-left:1px">
+      <p>Filters</p>
+      </div>  
+      
+      <div style="margin-top: 10px;">
+       <p>Status</p> 
+        <!-- <mat-form-field class="selectform">
+         
+        <mat-label>Select status</mat-label>
+        <mat-select placeholder="Select status" [(ngModel)]="selectedStatus" (selectionChange)="onStatusSelected()">
+        
+          <mat-option value="">All</mat-option>
+          <mat-option value="Completed">Completed</mat-option>
+          <mat-option value="Pending">Pending</mat-option>
+          <mat-option value="Cancelled">Cancelled</mat-option>
+        </mat-select>
+        </mat-form-field>  -->
+       </div>
+      <div style="margin-top: 10px;">
+        <p>Task name</p>
+        <!-- <mat-form-field class="nameform">
+          
+        <mat-label>Name</mat-label><br>
+    
+        
+        <input matInput #input [(ngModel)]="nameFilterValue" style="margin-top: 10px;">
+      </mat-form-field>  -->
+      </div>
+      <div style="margin-top: 10px;">
+      <button  mat-raised-button color="primary" (click)="applyFilters()" style="width: 250px;">Search</button>
+      </div>
+      <div style="margin-top: 20px;">
+      <button   routerLink="/charts"   mat-button><mat-icon>analytics</mat-icon> analytics</button>
+      </div>
+   </mat-nav-list>
+  
+  </mat-drawer>
+  <mat-card-content> 
+  
+      <mat-card>
+        <mat-card-header>
+          
+          <div class="mattab">
+            <mat-tab-group (selectedTabChange)="onTabClick($event)" >
+              <mat-tab label="All"> </mat-tab>
+              <mat-tab label="Completed"> </mat-tab>
+              <mat-tab label="Pending"></mat-tab>
+              <mat-tab label="Cancelled"> </mat-tab>
+            </mat-tab-group>
+          </div>
+         
+        </mat-card-header>
+  
+        <mat-card-content>
+         <app-task-endpoints></app-task-endpoints>   
+        
+      </mat-card-content>
+      </mat-card>  
+      
+      </mat-card-content> 
+     
+    </mat-drawer-container>
+   
+   
+  
+  <ng-template #AddorUpdateTaskModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">
+        {{ action === "add" ? "Add Task" : "Update Task" }}
+      </h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        id="modal-btn-close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="col">
+        <form   [formGroup]="taskform" (ngSubmit)="action === 'add' ? addTask() : UpdateTask()">
+          <div class="formgroup">
+            <label for="name"> Task name</label>
+            <input type="text" class="form-control" formControlName="name" />
+            <div
+              *ngIf="namectrl.invalid && (namectrl.dirty || namectrl.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="namectrl.errors?.required">Name is required</div>
+            </div>
+          </div>
+          <div class="formgroup">
+            <label for="description"> Description</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="description"
+            />
+            <div
+              *ngIf="
+                descriptionctrl.invalid &&
+                (descriptionctrl.dirty || descriptionctrl.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="descriptionctrl.errors?.required">
+                Description is required
+              </div>
+            </div>
+          </div>
+  
+          <div class="formgroup">
+            <label for="status"> Status</label>
+            <input type="text" class="form-control" formControlName="status" />
+            <div
+              *ngIf="
+                statusctrl.invalid && (statusctrl.dirty || statusctrl.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="statusctrl.errors?.required">Status is required</div>
+            </div>
+          </div>
+          <div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="taskform.invalid"
+              style="margin-top: 10px"
+            >
+              {{ action === "add" ? "Add" : "Update" }} Task
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.close('close click')"
+      >
+        Close
+      </button>
+    </div>
+  </ng-template>    
+   

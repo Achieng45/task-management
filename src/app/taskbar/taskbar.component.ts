@@ -1,82 +1,29 @@
-import {
- 
-  Component,
-  
-  OnInit,
- 
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TaskEndpointsComponent } from './task-endpoints/task-endpoints.component';
-
-import { HttpClientModule } from '@angular/common/http';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { CommonModule, NgIf } from '@angular/common';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCardModule } from '@angular/material/card';
-import { TaskServiceService } from './task-service.service';
-import { HttpClientXsrfModule } from '@angular/common/http';
-
-
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListItem, MatListModule } from '@angular/material/list';
-import { MatIcon } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOption } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabChangeEvent,  MatTabsModule } from '@angular/material/tabs';
-import {MatInputModule} from '@angular/material/input';
-
-
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormsModule, Validators,FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSelectModule} from '@angular/material/select';
-import { AnalyticsComponent } from "./analytics/analytics.component";
-import { ChartModule, } from 'angular-highcharts';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { TaskEndpointsComponent } from '../task-endpoints/task-endpoints.component';
+import { TaskServiceService } from '../task-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCard, MatCardContent, MatCardHeader, MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
+import { MatNavList } from '@angular/material/list';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { ChartModule } from 'angular-highcharts';
+
 @Component({
-    selector: 'app-root',
+    selector: 'app-taskbar',
     standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    imports: [
-        RouterOutlet,
-        TaskEndpointsComponent,
-        HttpClientModule,
-        FormsModule,
-        CommonModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatToolbarModule,
-        HttpClientXsrfModule,
-        MatSidenavModule,
-        
-        MatListModule,
-        MatListItem,
-        MatIcon,
-        MatRadioModule,
-        MatFormFieldModule,
-        MatOption,
-        MatSnackBarModule,
-        MatTabsModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSelectModule,
-        AnalyticsComponent,
-        ChartModule
-    ]
+    templateUrl: './taskbar.component.html',
+    styleUrl: './taskbar.component.css',
+    imports: [CommonModule, MatToolbarModule, MatIcon, MatDrawer, MatDrawerContainer, MatNavList, MatFormField, MatLabel, MatSelect, MatOption, FormsModule, MatCardContent, MatCard, MatOption, MatCardHeader, TaskEndpointsComponent,MatTabGroup,MatTab,ChartModule,ReactiveFormsModule,MatFormField]
 })
-export class AppComponent implements OnInit  {
-  
+export class TaskbarComponent implements OnInit{
   title = 'tasks';
   action: string = 'add';
   modalRef!: NgbModalRef;
@@ -171,14 +118,14 @@ export class AppComponent implements OnInit  {
     }
    
      
-   this.taskEndpoints.applyFilter(this.selectedStatus,this.nameFilterValue);
+    this.taskEndpoints.applyFilter(this.selectedStatus,this.nameFilterValue);
    
     
   }
-  Filterbyname(event:any){
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.taskEndpoints.filterByName(filterValue);
-  }
+  // Filterbyname(event:any){
+  //   const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  //   this.taskEndpoints.filterByName(filterValue);
+  // }
 
   applyFilters() {
     
@@ -186,8 +133,6 @@ export class AppComponent implements OnInit  {
     this.taskEndpoints.applyFilter(this.selectedStatus, this.nameFilterValue);
     // this.taskEndpoints.filterByName(this.nameFilterValue);
   }
-  press(){
-    console.log("reditrect");
-  }
+  
 
 }

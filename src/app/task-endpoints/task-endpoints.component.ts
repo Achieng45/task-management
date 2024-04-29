@@ -1,12 +1,11 @@
 /*Angular imports */
 import {
   Component,
-  EventEmitter,
-  Input,
   OnInit,
-  Output,
   TemplateRef,
-  NgZone,
+
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -16,8 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ChangeDetectorRef } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 /*Service imports */
 import { TaskServiceService } from '../task-service.service';
@@ -25,33 +23,49 @@ import { TaskServiceService } from '../task-service.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 /*Component imports */
-import { NavbarComponent } from '../navbar/navbar.component';
+
 
 /*Angular material */
 import { MatList } from '@angular/material/list';
 import { MatListItem } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+ 
+} from '@angular/material/paginator';
 
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatIcon } from '@angular/material/icon';
+import { MatSort } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { AnalyticsComponent } from "../analytics/analytics.component";
+import { RouterOutlet } from '@angular/router';
 @Component({
-  selector: 'app-task-endpoints',
-  standalone: true,
-  templateUrl: './task-endpoints.component.html',
-  styleUrl: './task-endpoints.component.css',
-  imports: [
-    HttpClientModule,
-    FormsModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatList,
-    MatListItem,
-    NavbarComponent,
-    MatSnackBarModule,
-  ],
+    selector: 'app-task-endpoints',
+    standalone: true,
+    templateUrl: './task-endpoints.component.html',
+    styleUrl: './task-endpoints.component.css',
+    imports: [
+        HttpClientModule,
+        FormsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatList,
+        MatListItem,
+        MatSnackBarModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatIcon,
+        MatFormFieldModule,
+        AnalyticsComponent,
+        RouterOutlet
+    ]
 })
-export class TaskEndpointsComponent implements OnInit {
-  @Input() selectedStatus: string = '';
+export class TaskEndpointsComponent implements OnInit, AfterViewInit {
+  selectedStatus: string = '';
   taskform!: FormGroup;
-// selectedStatus: string = '';
+
   disableFields: boolean = false;
   tasks: any[] = [];
   namectrl: any;
@@ -66,7 +80,11 @@ export class TaskEndpointsComponent implements OnInit {
     status: '',
   };
   filteredTasks: any[] = [];
+  nameFilterValue:string=''
+  dataSource = new MatTableDataSource<any>([]);
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private modalService: NgbModal,
     private taskservice: TaskServiceService,
@@ -74,14 +92,7 @@ export class TaskEndpointsComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  currentPage = 1;
-  itemsPerPage = 2;
-  totalItems = 5;
-  active = 2;
-  page = 2;
-
   ngOnInit(): void {
-    this.loadTasks();
     this.taskform = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -90,30 +101,33 @@ export class TaskEndpointsComponent implements OnInit {
     this.namectrl = this.taskform.get('name');
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
+    this.loadTasks();
   }
 
-  onPageChange() {
-    this.currentPage = this.page;
-    this.loadTasks();
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort=this.sort;
   }
 
   loadTasks() {
     this.taskservice.getTasks().subscribe(
       (data: any) => {
         this.tasks = data;
-        this.applyFilter(this.selectedStatus);
+
+        this.applyFilter(this.nameFilterValue,this.selectedStatus);
       },
       (error: any) => {
         console.error('error fetching', error);
       }
     );
   }
+
   addTask() {
     this.taskservice.createTask(this.taskform.value).subscribe(
       (response: any) => {
         this.tasks.push(response);
 
-        this.applyFilter(this.selectedStatus);
+        // this.applyFilter(this.selectedStatus);
         this.taskform.reset();
         this.modalRef.close();
       },
@@ -185,18 +199,22 @@ export class TaskEndpointsComponent implements OnInit {
     });
   }
 
-  applyFilter(status: string) {
-    console.log(status);
-    if (status === 'Completed') {
+  applyFilter(status: string,name:string) {
+  
+    // if (
+    //   status === 'Completed' ||
+    //   status === 'Pending' ||
+    //   status === 'Cancelled'
+    // ) {
       this.filteredTasks = this.tasks.filter(
-        (task: any) => task.status === status
-      );
-      //console.log(this.filteredTasks);
-    } else {
-      this.filteredTasks = this.tasks;
-      console.log(this.filteredTasks);
-    }
+        (task: any) => ((status ===''|| task.status === status)&&(name === '' || task.name.toLowerCase().includes(name.toLowerCase()))));
+      
+    // } else {
+    //   this.filteredTasks = this.tasks;
+    // }
+    this.dataSource.data = this.filteredTasks;
   }
+
   updatetask1() {
     const status = this.taskform!.get('status')!.value; // Get the status from the form
     const name = this.taskform?.get('name')?.value; // Get the current value of the name field
@@ -224,4 +242,11 @@ export class TaskEndpointsComponent implements OnInit {
       verticalPosition: 'top',
     });
   }
+  filterByName(name: string) {
+    const filteredTasks = this.tasks.filter((task: any) =>
+      task.name.toLowerCase().includes(name.toLowerCase())
+    );
+    this.dataSource.data = filteredTasks;
+  }
+
 }
