@@ -43,6 +43,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { AnalyticsComponent } from "./analytics/analytics.component";
 import { ChartModule, } from 'angular-highcharts';
+import { RouterModule } from '@angular/router';
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -72,7 +73,8 @@ import { ChartModule, } from 'angular-highcharts';
         MatInputModule,
         MatSelectModule,
         AnalyticsComponent,
-        ChartModule
+        ChartModule,
+        RouterModule
     ]
 })
 export class AppComponent implements OnInit  {
