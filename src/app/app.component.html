@@ -54,7 +54,7 @@
    
     </div>
     <div>
-    <button   routerLink="/charts"   mat-button><mat-icon>analytics</mat-icon> analytics</button>
+    <button   routerLink="/charts" (click)="press()"  mat-button><mat-icon>analytics</mat-icon> analytics</button>
     </div>
  </mat-nav-list>
 
@@ -62,6 +62,7 @@
 <mat-card-content> 
 
     <mat-card>
+     
       <mat-card-header>
        
         <div class="mattab">
