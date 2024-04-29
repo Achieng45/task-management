@@ -15,13 +15,14 @@ import { MatNavList } from '@angular/material/list';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { ChartModule } from 'angular-highcharts';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-taskbar',
     standalone: true,
     templateUrl: './taskbar.component.html',
     styleUrl: './taskbar.component.css',
-    imports: [CommonModule, MatToolbarModule, MatIcon, MatDrawer, MatDrawerContainer, MatNavList, MatFormField, MatLabel, MatSelect, MatOption, FormsModule, MatCardContent, MatCard, MatOption, MatCardHeader, TaskEndpointsComponent,MatTabGroup,MatTab,ChartModule,ReactiveFormsModule,MatFormField]
+    imports: [CommonModule, MatToolbarModule, MatIcon, MatDrawer, MatDrawerContainer, MatNavList, MatFormField, MatLabel, MatSelect, MatOption, FormsModule, MatCardContent, MatCard, MatOption, MatCardHeader, TaskEndpointsComponent,MatTabGroup,MatTab,ChartModule,ReactiveFormsModule,MatFormField,RouterModule]
 })
 export class TaskbarComponent implements OnInit{
   title = 'tasks';

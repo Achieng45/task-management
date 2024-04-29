@@ -6,7 +6,7 @@
     </button>
     
     <mat-icon (click)="drawer.toggle()"  style="margin-left: 10px">menu</mat-icon> 
-    <button   routerLink="charts"   mat-button><mat-icon>analytics</mat-icon> analytics</button>
+    <button   [routerLink]="['charts']"   mat-button><mat-icon>analytics</mat-icon> analytics</button>
   
   </mat-toolbar> 
   
