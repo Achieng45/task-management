@@ -126,12 +126,14 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     this.taskservice.createTask(this.taskform.value).subscribe(
       (response: any) => {
         this.tasks.push(response);
-
-        // this.applyFilter(this.selectedStatus);
+       
+         this.dataSource.data=this.tasks
+        
         this.taskform.reset();
+       
         this.modalRef.close();
       },
-
+      
       (error) => {
         console.error('Error adding employee:', error);
       }
@@ -163,7 +165,7 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
         this.tasks = this.tasks.filter(
           (task: { id: any }) => task.id !== this.selectedTask.id
         );
-        console.log(this.selectedTask.id);
+         this.dataSource.data=this.tasks;
 
         this.modalRef.close();
       },
@@ -216,9 +218,9 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
   }
 
   updatetask1() {
-    const status = this.taskform!.get('status')!.value; // Get the status from the form
+    const status = this.taskform?.get('status')?.value; // Get the status from the form
     const name = this.taskform?.get('name')?.value; // Get the current value of the name field
-    const description = this.taskform!.get('description')!.value; // Get the current value of the description field
+    const description = this.taskform?.get('description')?.value; // Get the current value of the description field
 
     this.taskservice
       .updateTask(this.selectedTask.id, { name, description, status })
@@ -231,6 +233,8 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
           if (index !== -1) {
             this.tasks[index] = response;
           }
+          this.dataSource.data=this.tasks;
+         
           this.modalRef.close(); // Close the modal
         },
         (error) => {

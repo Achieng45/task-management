@@ -12,17 +12,19 @@ import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import { MatNavList } from '@angular/material/list';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel,MatFormFieldModule } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { ChartModule } from 'angular-highcharts';
 import { RouterModule } from '@angular/router';
-
+import { RouterOutlet } from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
 @Component({
     selector: 'app-taskbar',
     standalone: true,
     templateUrl: './taskbar.component.html',
     styleUrl: './taskbar.component.css',
-    imports: [CommonModule, MatToolbarModule, MatIcon, MatDrawer, MatDrawerContainer, MatNavList, MatFormField, MatLabel, MatSelect, MatOption, FormsModule, MatCardContent, MatCard, MatOption, MatCardHeader, TaskEndpointsComponent,MatTabGroup,MatTab,ChartModule,ReactiveFormsModule,MatFormField,RouterModule]
+    imports: [CommonModule, MatToolbarModule, MatIcon, MatDrawer, MatDrawerContainer, MatNavList, MatFormField, MatLabel, MatSelect, MatOption, FormsModule, MatCardContent, MatCard, MatOption, MatCardHeader, TaskEndpointsComponent,MatTabGroup,MatTab,ChartModule,ReactiveFormsModule,MatFormField,RouterModule,RouterOutlet,MatFormFieldModule,MatButtonModule,MatInputModule]
 })
 export class TaskbarComponent implements OnInit{
   title = 'tasks';

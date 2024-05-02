@@ -1,12 +1,10 @@
 {
   "tasks": [
     {
-      "id": "9",
       "name": "smart insure",
       "description": "started team work",
       "status": "Pending",
-      "created_at": "2024-04-04T09:51:49.083526Z",
-      "updated_at": "2024-04-04T09:51:49.083526Z"
+      "id": "9"
     },
     {
       "id": "10",
@@ -31,50 +29,6 @@
       "status": "Pending",
       "created_at": "2024-04-08T06:09:43.636709Z",
       "updated_at": "2024-04-08T06:09:43.636709Z"
-    },
-    {
-      "id": "14",
-      "name": "Finance",
-      "description": "pending money",
-      "status": "Pending",
-      "created_at": "2024-04-08T06:11:45.095924Z",
-      "updated_at": "2024-04-08T06:11:45.095924Z"
-    },
-    {
-      "id": "19",
-      "name": "error solving",
-      "description": "Data fetch",
-      "status": "Pending",
-      "created_at": "2024-04-08T06:30:58.923114Z",
-      "updated_at": "2024-04-08T06:30:58.923114Z"
-    },
-    {
-      "id": "20",
-      "name": "serializer",
-      "description": "task serializer",
-      "status": "Completed",
-      "created_at": "2024-04-08T06:37:39.396071Z",
-      "updated_at": "2024-04-08T06:37:39.396071Z"
-    },
-    {
-      "id": "22",
-      "name": "response",
-      "description": "http",
-      "status": "Pending",
-      "created_at": "2024-04-08T06:44:21.578237Z",
-      "updated_at": "2024-04-08T06:44:21.578237Z"
-    },
-    {
-      "name": "Serializer",
-      "description": "instance",
-      "status": "Completed",
-      "id": "23"
-    },
-    {
-      "name": "browser",
-      "description": "Change browser",
-      "status": "Pending",
-      "id": "25"
     },
     {
       "id": "80a7",
@@ -137,10 +91,22 @@
       "status": "Completed"
     },
     {
-      "id": "2fc0",
-      "name": "devops",
-      "description": "spring boot and react",
-      "status": "Completed"
+      "name": "Angular status",
+      "description": "Status management",
+      "status": "Completed",
+      "id": "95a1"
+    },
+    {
+      "name": "modals",
+      "description": "Adding in realtime",
+      "status": "Pending",
+      "id": "a731"
+    },
+    {
+      "id": "dea2",
+      "name": "modals",
+      "description": "updating in realtime",
+      "status": "Pending"
     }
   ]
 }
