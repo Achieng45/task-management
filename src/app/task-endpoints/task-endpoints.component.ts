@@ -41,6 +41,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnalyticsComponent } from "../analytics/analytics.component";
 import { RouterOutlet } from '@angular/router';
+import { StateService } from '../state.service';
+import { Subscription } from 'rxjs';
+import { UpdateModeEnum } from 'chart.js';
 @Component({
     selector: 'app-task-endpoints',
     standalone: true,
@@ -82,6 +85,7 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
   filteredTasks: any[] = [];
   nameFilterValue:string=''
   dataSource = new MatTableDataSource<any>([]);
+  taskSubscription!:Subscription
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -89,7 +93,8 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private taskservice: TaskServiceService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private stateservice:StateService
   ) {}
 
   ngOnInit(): void {
@@ -101,57 +106,51 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     this.namectrl = this.taskform.get('name');
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
+
+     this.stateservice.tasks$.subscribe(tasks=>{
+      this.tasks=tasks;
+     });
+
+// this.stateservice.loadTasks();
+
     this.loadTasks();
+
+
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort=this.sort;
   }
-
-  loadTasks() {
-    this.taskservice.getTasks().subscribe(
-      (data: any) => {
-        this.tasks = data;
-
+  loadTasks(){
+    this.taskSubscription=this.stateservice.tasks$.subscribe(
+      (tasks:any[])=>{
+        this.tasks;
         this.applyFilter(this.nameFilterValue,this.selectedStatus);
+        // this.dataSource.data=this.filteredTasks;
       },
-      (error: any) => {
-        console.error('error fetching', error);
+      (error:any)=>{
+        console.error('error fetching',error);
       }
     );
+    
   }
 
-  addTask() {
-    this.taskservice.createTask(this.taskform.value).subscribe(
-      (response: any) => {
-        this.tasks.push(response);
-       
-         this.dataSource.data=this.tasks
-        
-        this.taskform.reset();
-       
-        this.modalRef.close();
-      },
-      
-      (error) => {
-        console.error('Error adding employee:', error);
-      }
-    );
-    this.snackBar.open('Task added successfully!', 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-    });
-  }
-  openAddTaskModal(AddorUpdateTaskModal: TemplateRef<any>) {
+ 
+addTask(){
+  this.stateservice.addTask(this.taskform.value);
+  this.taskform.reset();
+  this.modalRef.close();
+  this.snackBar.open('Task added successfully!','close',{duration:3000,verticalPosition:'top'});
+}
+openAddTaskModal(AddorUpdateTaskModal: TemplateRef<any>) {
     this.isAddingTask = true;
     this.selectedTask = {};
     this.taskform.reset();
     // this.action = 'add';
     this.modalRef = this.modalService.open(AddorUpdateTaskModal, {
       ariaLabelledBy: 'modal-basic-title',
-    });
-  }
+    })}
 
   OpenViewTask(viewtaskmodal: TemplateRef<any>, task: any) {
     this.selectedTask = { ...task };
@@ -159,32 +158,26 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
       ariaLabelledBy: 'modal-basic-title',
     });
   }
-  DeleteTask() {
-    this.taskservice.deleteTaskbyID(this.selectedTask.id).subscribe(
-      (response) => {
-        this.tasks = this.tasks.filter(
-          (task: { id: any }) => task.id !== this.selectedTask.id
-        );
-         this.dataSource.data=this.tasks;
-
-        this.modalRef.close();
-      },
-      (error) => {
-        console.log('error deleting employee:', error);
-      }
-    );
+ 
+  DeleteTask(){
+    this.stateservice.deleteTasks(this.selectedTask.id);
+    this.modalRef.close();
     this.snackBar.open('Task deleted successfully!', 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-    });
-  }
-  opendeletemodal(deletetaskmodal: TemplateRef<any>, task: any) {
-    this.isAddingTask = false;
-    this.selectedTask = { ...task };
-    this.modalRef = this.modalService.open(deletetaskmodal, {
-      ariaLabelledBy: 'modal-basic-title',
-    });
-  }
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+
+
+    }
+    opendeletemodal(deletetaskmodal: TemplateRef<any>, task: any) {
+        this.isAddingTask = false;
+        this.selectedTask = { ...task };
+        this.modalRef = this.modalService.open(deletetaskmodal, {
+          ariaLabelledBy: 'modal-basic-title',
+        });
+      }
+
+  
 
   openupdatetask(AddorUpdateTaskModal: TemplateRef<any>, task: any) {
     this.isAddingTask = false;
@@ -203,48 +196,25 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
 
   applyFilter(status: string,name:string) {
   
-    // if (
-    //   status === 'Completed' ||
-    //   status === 'Pending' ||
-    //   status === 'Cancelled'
-    // ) {
+  
       this.filteredTasks = this.tasks.filter(
         (task: any) => ((status ===''|| task.status === status)&&(name === '' || task.name.toLowerCase().includes(name.toLowerCase()))));
       
-    // } else {
-    //   this.filteredTasks = this.tasks;
-    // }
+    
     this.dataSource.data = this.filteredTasks;
   }
 
-  updatetask1() {
-    const status = this.taskform?.get('status')?.value; // Get the status from the form
-    const name = this.taskform?.get('name')?.value; // Get the current value of the name field
-    const description = this.taskform?.get('description')?.value; // Get the current value of the description field
-
-    this.taskservice
-      .updateTask(this.selectedTask.id, { name, description, status })
-      .subscribe(
-        (response) => {
-          // Update the task in the tasks array with the response data
-          const index = this.tasks.findIndex(
-            (task) => task.id === this.selectedTask.id
-          );
-          if (index !== -1) {
-            this.tasks[index] = response;
-          }
-          this.dataSource.data=this.tasks;
-         
-          this.modalRef.close(); // Close the modal
-        },
-        (error) => {
-          console.error('Error updating task:', error);
-        }
-      );
-    this.snackBar.open('Task updated successfully!', 'Close', {
+  updatetask1(){
+   const status = this.taskform?.get('status')?.value; 
+   const name = this.taskform?.get('name')?.value; 
+  const description = this.taskform?.get('description')?.value;
+  this.stateservice.updateTask(this.selectedTask.id,{name,description,status});
+  
+  this.modalRef.close();
+  this.snackBar.open('Task updated successfully!', 'Close', {
       duration: 3000,
-      verticalPosition: 'top',
-    });
+       verticalPosition: 'top',
+     });
   }
   filterByName(name: string) {
     const filteredTasks = this.tasks.filter((task: any) =>

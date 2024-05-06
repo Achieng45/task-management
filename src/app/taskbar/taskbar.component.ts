@@ -19,6 +19,8 @@ import { RouterModule } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import { StateService } from '../state.service';
+import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-taskbar',
     standalone: true,
@@ -39,6 +41,7 @@ export class TaskbarComponent implements OnInit{
   nameFilterValue:string='';
   showfilterdrawer: boolean = false;
   dataSource=new MatTableDataSource<any>([]);
+  taskSubscription!:Subscription;
   @ViewChild(TaskEndpointsComponent) taskEndpoints!: TaskEndpointsComponent;
 
   nameFilterCtrl!: FormControl;
@@ -46,7 +49,8 @@ export class TaskbarComponent implements OnInit{
     private modalService: NgbModal,
     private taskservice: TaskServiceService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private stateservice:StateService
   ) {}
   ngOnInit(): void {
     this.loadTasks();
@@ -59,15 +63,19 @@ export class TaskbarComponent implements OnInit{
     this.namectrl = this.taskform.get('name');
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
+    // this.stateservice.tasks$.subscribe(tasks=>{
+    //   this.tasks=tasks;
+    // });
+    // this.loadTasks();
   }
 
   addTask() {
-    this.taskservice.createTask(this.taskform.value).subscribe((response) => {
-      this.tasks.push(response);
-      this.taskEndpoints.applyFilter(this.nameFilterValue,this.selectedStatus);
+    this.stateservice.addTask(this.taskform.value);
+      
+     
       this.taskform.reset();
       this.modalRef.close();
-    });
+   
     this.snackBar.open('Task added successfully!', 'Close', {
       duration: 3000,
       verticalPosition: 'top',
@@ -83,9 +91,9 @@ export class TaskbarComponent implements OnInit{
   UpdateTask() {}
 
    loadTasks(): void {
-    this.taskservice.getTasks().subscribe(
-      (data: any) => {
-        this.tasks = data;
+    this.taskSubscription=this.stateservice.tasks$.subscribe(
+      (taskss: any[]) => {
+        this.tasks;
         this.taskEndpoints.applyFilter(this.selectedStatus,this.nameFilterValue);
        
       
