@@ -3,7 +3,7 @@
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let task of Tasks">{{task.name}}</td>
+      <td mat-cell *matCellDef="let task of filteredTasks">{{task.name}}</td>
     </ng-container>
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>

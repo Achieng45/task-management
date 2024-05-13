@@ -48,6 +48,7 @@ export class TaskbarComponent implements OnInit{
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
+  test =  []
   ngOnInit(): void {
     this.loadTasks();
     this.nameFilterCtrl = this.fb.control('');
@@ -137,5 +138,7 @@ export class TaskbarComponent implements OnInit{
     // this.taskEndpoints.filterByName(this.nameFilterValue);
   }
   
-
+ logout(){
+  sessionStorage.clear();
+ }
 }
