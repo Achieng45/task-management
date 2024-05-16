@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Task } from '../../../Store/Model/Task.model';
 import {  loadTasks, } from '../../../Store/Task/Task.Action';
@@ -46,6 +46,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnalyticsComponent } from "../analytics/analytics.component";
 import { RouterOutlet } from '@angular/router';
+import { taskReducer } from '../../../Store/Task/Task.State';
+import { EffectsModule } from '@ngrx/effects';
+import { TaskEffects } from '../../../Store/Task/Task.Effects';
 @Component({
     selector: 'app-task-endpoints',
     standalone: true,
@@ -64,11 +67,13 @@ import { RouterOutlet } from '@angular/router';
         MatIcon,
         MatFormFieldModule,
         AnalyticsComponent,
-        RouterOutlet
+        RouterOutlet,
+       
+       
     ]
 })
 export class TaskEndpointsComponent implements OnInit, AfterViewInit {
-  tasks$?: Observable<Task[]>;
+  tasks$!: Observable<Task[]>;
 
  
   selectedStatus: string = '';
@@ -113,6 +118,7 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
 
     this.store.dispatch(loadTasks());
     this.tasks$ = this.store.select(selectAllTasks);
+    this.dataSource=new MatTableDataSource<Task>(this.tasks)
     // this.loadTasks()
   }
 
@@ -122,6 +128,7 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
   }
 
   loadTasks() {
+  
     this.taskservice.getTasks().subscribe(
       (data: any) => {
         this.tasks = data;

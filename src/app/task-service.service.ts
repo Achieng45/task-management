@@ -13,6 +13,7 @@ export class TaskServiceService {
   
   getTasks():Observable<Task[]> {
     return this.http.get<Task[]>(this.api);
+    
   }
   createTask(data: object) {
     return this.http.post(this.api, data);
