@@ -16,6 +16,11 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Task } from '../../../Store/Model/Task.model';
+import {  loadTasks, } from '../../../Store/Task/Task.Action';
+import { selectAllTasks } from '../../../Store/Task/Task.Selectors';
 
 /*Service imports */
 import { TaskServiceService } from '../task-service.service';
@@ -63,6 +68,9 @@ import { RouterOutlet } from '@angular/router';
     ]
 })
 export class TaskEndpointsComponent implements OnInit, AfterViewInit {
+  tasks$?: Observable<Task[]>;
+
+ 
   selectedStatus: string = '';
   taskform!: FormGroup;
 
@@ -89,7 +97,8 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private taskservice: TaskServiceService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store:Store
   ) {}
 
   ngOnInit(): void {
@@ -101,7 +110,10 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     this.namectrl = this.taskform.get('name');
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
-    this.loadTasks();
+
+    this.store.dispatch(loadTasks());
+    this.tasks$ = this.store.select(selectAllTasks);
+    // this.loadTasks()
   }
 
   ngAfterViewInit() {
