@@ -2,7 +2,7 @@ import { Component, OnInit, input } from '@angular/core';
 
 import { ChartModule } from 'angular-highcharts';
 
-import { TaskServiceService } from '../task-service.service';
+import { TaskServiceService } from '../../../core/services/task-service.service';
 import { Chart } from 'angular-highcharts';
 import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';

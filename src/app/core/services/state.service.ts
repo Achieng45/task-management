@@ -44,16 +44,16 @@ export class StateService {
     );
 
   }
-  updateTask(taskId:number,UpdatedTaskData:any){
-    this.taskservice.updateTask(taskId,UpdatedTaskData).subscribe(
-      (response)=>{
-        const currentTasks=this.taskSubject.getValue();
-        const updatedTasks=currentTasks.map((task)=>task.id===taskId?{...task,...UpdatedTaskData}:task);
-        this.taskSubject.next(updatedTasks);
-      },
-        (error:any)=>{
-          console.log('Error updateing task',error)
-        }
-    );
-  }
+  // updateTask(taskId:number,UpdatedTaskData:any){
+  //   this.taskservice.updateTask(data).subscribe(
+  //     (response)=>{
+  //       const currentTasks=this.taskSubject.getValue();
+  //       const updatedTasks=currentTasks.map((task)=>task.id===taskId?{...task,...UpdatedTaskData}:task);
+  //       this.taskSubject.next(updatedTasks);
+  //     },
+  //       (error:any)=>{
+  //         console.log('Error updateing task',error)
+  //       }
+  //   );
+  // }
 }

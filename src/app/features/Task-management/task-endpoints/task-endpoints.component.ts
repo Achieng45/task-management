@@ -18,12 +18,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Tasks } from '../../../Store/Model/Task.model';
-import {  deletetask, loadtask, updatetask, } from '../../../Store/Task/Task.Action';
-import { gettask, gettasklist } from '../../../Store/Task/Task.Selectors';
+import { Tasks } from '../../../../../Store/Model/Task.model';
+import {  deletetask, loadtask, updatetask, } from '../../../../../Store/Task/Task.Action';
+import { gettask, gettasklist } from '../../../../../Store/Task/Task.Selectors';
 
 /*Service imports */
-import { TaskServiceService } from '../task-service.service';
+import { TaskServiceService } from '../../../core/services/task-service.service';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -46,7 +46,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnalyticsComponent } from "../analytics/analytics.component";
 import { RouterOutlet } from '@angular/router';
-import { StateService } from '../state.service';
+import { StateService } from '../../../core/services/state.service';
 import { Subscription } from 'rxjs';
 import { UpdateModeEnum } from 'chart.js';
 

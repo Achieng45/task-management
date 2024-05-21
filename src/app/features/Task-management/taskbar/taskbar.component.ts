@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TaskEndpointsComponent } from '../task-endpoints/task-endpoints.component';
-import { TaskServiceService } from '../task-service.service';
+import { TaskServiceService } from '../../../core/services/task-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {
@@ -36,7 +36,7 @@ import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
-import { addtask } from '../../../Store/Task/Task.Action';
+import { addtask } from '../../../../../Store/Task/Task.Action';
 @Component({
   selector: 'app-taskbar',
   standalone: true,

@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TaskEndpointsComponent } from './task-endpoints/task-endpoints.component';
+import { TaskEndpointsComponent } from './features/Task-management/task-endpoints/task-endpoints.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import {
@@ -23,7 +23,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
-import { TaskServiceService } from './task-service.service';
+import { TaskServiceService } from './core/services/task-service.service';
 import { HttpClientXsrfModule } from '@angular/common/http';
 
 
@@ -41,9 +41,9 @@ import {MatInputModule} from '@angular/material/input';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
-import { AnalyticsComponent } from "./analytics/analytics.component";
+import { AnalyticsComponent } from "./features/Task-management/analytics/analytics.component";
 import { ChartModule, } from 'angular-highcharts';
-import { StateService } from './state.service';
+import { StateService } from './core/services/state.service';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 @Component({

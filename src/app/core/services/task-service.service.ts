@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { url } from 'inspector';
 import { Observable, map } from 'rxjs';
-import { Tasks } from '../../Store/Model/Task.model';
+import { Tasks } from '../../../../Store/Model/Task.model';
 import { AnyARecord } from 'dns';
 import { response } from 'express';
 
