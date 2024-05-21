@@ -45,6 +45,7 @@ import { AnalyticsComponent } from "./analytics/analytics.component";
 import { ChartModule, } from 'angular-highcharts';
 import { StateService } from './state.service';
 import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -74,7 +75,8 @@ import { Subscription } from 'rxjs';
         MatInputModule,
         MatSelectModule,
         AnalyticsComponent,
-        ChartModule
+        ChartModule,
+        RouterModule
     ]
 })
 export class AppComponent implements OnInit  {

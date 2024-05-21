@@ -56,7 +56,7 @@
    
     </div>
     <div>
-    <button   routerLink="/charts"   mat-button><mat-icon>analytics</mat-icon> analytics</button>
+    <button   [routerLink]="['/charts']" (click)="press()"  mat-button><mat-icon>analytics</mat-icon> analytics</button>
     </div>
  </mat-nav-list>
 
@@ -64,6 +64,7 @@
 <mat-card-content> 
 
     <mat-card>
+     
       <mat-card-header>
        
         <div class="mattab">
@@ -78,8 +79,8 @@
       </mat-card-header>
 
       <mat-card-content>
-       <app-task-endpoints></app-task-endpoints> 
-      <router-outlet></router-outlet>
+        <app-task-endpoints></app-task-endpoints>  
+      
       </mat-card-content>
     </mat-card>  
     
@@ -173,3 +174,4 @@
     </button>
   </div>
 </ng-template>        -->
+     

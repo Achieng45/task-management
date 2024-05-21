@@ -1,6 +1,4 @@
-
-  
-  mat-card {
+mat-card {
     margin: 20px;
     padding: 20px;
     
@@ -48,11 +46,6 @@
   padding-right: 25px;
   margin-right: 10px;
 }
-/* draweritems{
-  display: flex;
-  justify-content: space-around;
-  margin-right: auto;
-} */
 
 .selectform{
   width: 250px;
