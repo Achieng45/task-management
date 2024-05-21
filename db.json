@@ -1,10 +1,10 @@
 {
   "tasks": [
     {
+      "id": "9",
       "name": "smart insure",
       "description": "started team work",
-      "status": "Pending",
-      "id": "9"
+      "status": "Completed"
     },
     {
       "id": "10",
@@ -13,14 +13,6 @@
       "status": "Pending",
       "created_at": "2024-04-06T23:12:48.036780Z",
       "updated_at": "2024-04-06T23:12:48.036780Z"
-    },
-    {
-      "id": "12",
-      "name": "smart research",
-      "description": "smart insure reserach",
-      "status": "Completed",
-      "created_at": "2024-04-08T05:58:01.607211Z",
-      "updated_at": "2024-04-08T05:58:01.607211Z"
     },
     {
       "id": "13",
@@ -34,7 +26,7 @@
       "id": "80a7",
       "name": "Updating tasks",
       "description": "updating ui",
-      "status": "Pending"
+      "status": "Completed"
     },
     {
       "name": "toast message",
@@ -106,6 +98,18 @@
       "id": "dea2",
       "name": "modals",
       "description": "updating in realtime",
+      "status": "Pending"
+    },
+    {
+      "id": "18c4",
+      "name": "ngrx",
+      "description": "state management",
+      "status": "Pending"
+    },
+    {
+      "id": "2132",
+      "name": "Angular ",
+      "description": "Lazy loading",
       "status": "Pending"
     }
   ]

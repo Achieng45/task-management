@@ -6,7 +6,7 @@ import { TaskbarComponent } from './taskbar/taskbar.component';
 export const routes: Routes = [
   {path:'',component:TaskbarComponent},
    {path:'charts',component:AnalyticsComponent},
-   {path:'endpoints',component:TaskEndpointsComponent}
-   // {path:'taskbar',component:TaskbarComponent}
+   {path:'endpoints',component:TaskEndpointsComponent},
+  {path:'dashboard',loadChildren:()=>import('./dashboard/dashboard.module').then(m=>m.DashboardModule)}
    
 ];

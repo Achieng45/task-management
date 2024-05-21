@@ -1,6 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TaskState, taskAdapter } from './Task.Reducer';
+import { TaskModel } from '../Model/Task.model';
 
-export const selectTaskState = createFeatureSelector<TaskState>('tasks');
+const gettaskstate=createFeatureSelector<TaskModel>('task');
+export const gettasklist=createSelector(gettaskstate,(state)=>{
+    return state.list;
+})
 
-export const { selectAll: selectAllTasks } = taskAdapter.getSelectors(selectTaskState);
+export const gettask=createSelector(gettaskstate,(state)=>{
+    return state.taskobject;
+})

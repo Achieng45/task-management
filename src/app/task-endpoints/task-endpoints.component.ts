@@ -18,9 +18,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Task } from '../../../Store/Model/Task.model';
-import {  loadTasks, } from '../../../Store/Task/Task.Action';
-import { selectAllTasks } from '../../../Store/Task/Task.Selectors';
+import { Tasks } from '../../../Store/Model/Task.model';
+import {  deletetask, loadtask, updatetask, } from '../../../Store/Task/Task.Action';
+import { gettask, gettasklist } from '../../../Store/Task/Task.Selectors';
 
 /*Service imports */
 import { TaskServiceService } from '../task-service.service';
@@ -46,9 +46,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnalyticsComponent } from "../analytics/analytics.component";
 import { RouterOutlet } from '@angular/router';
-import { taskReducer } from '../../../Store/Task/Task.State';
-import { EffectsModule } from '@ngrx/effects';
-import { TaskEffects } from '../../../Store/Task/Task.Effects';
+
 @Component({
     selector: 'app-task-endpoints',
     standalone: true,
@@ -73,14 +71,14 @@ import { TaskEffects } from '../../../Store/Task/Task.Effects';
     ]
 })
 export class TaskEndpointsComponent implements OnInit, AfterViewInit {
-  tasks$!: Observable<Task[]>;
+ 
 
  
   selectedStatus: string = '';
   taskform!: FormGroup;
-
+  tasklist!:Tasks[];
   disableFields: boolean = false;
-  tasks: any[] = [];
+  tasks: any[]=[];
   namectrl: any;
   descriptionctrl: any;
   statusctrl: any;
@@ -116,10 +114,7 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
 
-    this.store.dispatch(loadTasks());
-    this.tasks$ = this.store.select(selectAllTasks);
-    this.dataSource=new MatTableDataSource<Task>(this.tasks)
-    // this.loadTasks()
+    this.loadTasks()
   }
 
   ngAfterViewInit() {
@@ -128,49 +123,24 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
   }
 
   loadTasks() {
-  
-    this.taskservice.getTasks().subscribe(
-      (data: any) => {
-        this.tasks = data;
+    this.store.dispatch(loadtask());
+  this.store.select(gettasklist).subscribe(data=>{
+  this.tasks=data;
+   
+    this.applyFilter(this.nameFilterValue,this.selectedStatus);
+  },
+  (error:any)=>{
+   console.log("error fetching",error);
+  }
+);
 
-        this.applyFilter(this.nameFilterValue,this.selectedStatus);
-      },
-      (error: any) => {
-        console.error('error fetching', error);
-      }
-    );
+ 
+  
   }
 
   addTask() {
-    this.taskservice.createTask(this.taskform.value).subscribe(
-      (response: any) => {
-        this.tasks.push(response);
-       
-         this.dataSource.data=this.tasks
-        
-        this.taskform.reset();
-       
-        this.modalRef.close();
-      },
-      
-      (error) => {
-        console.error('Error adding employee:', error);
-      }
-    );
-    this.snackBar.open('Task added successfully!', 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-    });
-  }
-  openAddTaskModal(AddorUpdateTaskModal: TemplateRef<any>) {
-    this.isAddingTask = true;
-    this.selectedTask = {};
-    this.taskform.reset();
-    // this.action = 'add';
-    this.modalRef = this.modalService.open(AddorUpdateTaskModal, {
-      ariaLabelledBy: 'modal-basic-title',
-    });
-  }
+    
+ }
 
   OpenViewTask(viewtaskmodal: TemplateRef<any>, task: any) {
     this.selectedTask = { ...task };
@@ -178,20 +148,12 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
       ariaLabelledBy: 'modal-basic-title',
     });
   }
-  DeleteTask() {
-    this.taskservice.deleteTaskbyID(this.selectedTask.id).subscribe(
-      (response) => {
-        this.tasks = this.tasks.filter(
-          (task: { id: any }) => task.id !== this.selectedTask.id
-        );
-         this.dataSource.data=this.tasks;
-
-        this.modalRef.close();
-      },
-      (error) => {
-        console.log('error deleting employee:', error);
-      }
-    );
+  DeleteTask(code:number) {
+     this.store.dispatch(deletetask({code:code}))
+    this.dataSource.data=this.tasks;
+    
+    this.modalRef.close();
+    
     this.snackBar.open('Task deleted successfully!', 'Close', {
       duration: 3000,
       verticalPosition: 'top',
@@ -222,44 +184,26 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
 
   applyFilter(status: string,name:string) {
   
-    // if (
-    //   status === 'Completed' ||
-    //   status === 'Pending' ||
-    //   status === 'Cancelled'
-    // ) {
+    
       this.filteredTasks = this.tasks.filter(
         (task: any) => ((status ===''|| task.status === status)&&(name === '' || task.name.toLowerCase().includes(name.toLowerCase()))));
-      
-    // } else {
-    //   this.filteredTasks = this.tasks;
-    // }
+    
     this.dataSource.data = this.filteredTasks;
   }
 
   updatetask1() {
-    const status = this.taskform?.get('status')?.value; // Get the status from the form
-    const name = this.taskform?.get('name')?.value; // Get the current value of the name field
-    const description = this.taskform?.get('description')?.value; // Get the current value of the description field
-
-    this.taskservice
-      .updateTask(this.selectedTask.id, { name, description, status })
-      .subscribe(
-        (response) => {
-          // Update the task in the tasks array with the response data
-          const index = this.tasks.findIndex(
-            (task) => task.id === this.selectedTask.id
-          );
-          if (index !== -1) {
-            this.tasks[index] = response;
-          }
-          this.dataSource.data=this.tasks;
-         
-          this.modalRef.close(); // Close the modal
-        },
-        (error) => {
-          console.error('Error updating task:', error);
-        }
-      );
+    const status = this.taskform?.get('status')?.value; 
+    const name = this.taskform?.get('name')?.value; 
+    const description = this.taskform?.get('description')?.value; 
+    const updatedTask = {
+      id: this.selectedTask.id, 
+      ...this.taskform.value  
+    };
+    
+    
+    this.store.dispatch(updatetask({inputdata:updatedTask}));
+    this.modalRef.close()
+    
     this.snackBar.open('Task updated successfully!', 'Close', {
       duration: 3000,
       verticalPosition: 'top',
