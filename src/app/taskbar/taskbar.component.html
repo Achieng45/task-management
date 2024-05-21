@@ -81,7 +81,7 @@
     <mat-card>
       <mat-card-header>
         <div class="mattab">
-          <mat-tab-group (selectedTabChange)="onTabClick($event)">
+          <mat-tab-group (selectedTabChange)="onTabClick($event)" [(ngModel)]="selectedStatus">
             <mat-tab label="All"> </mat-tab>
             <mat-tab label="Completed"> </mat-tab>
             <mat-tab label="Pending"></mat-tab>

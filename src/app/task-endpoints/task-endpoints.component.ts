@@ -46,6 +46,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnalyticsComponent } from "../analytics/analytics.component";
 import { RouterOutlet } from '@angular/router';
+import { StateService } from '../state.service';
+import { Subscription } from 'rxjs';
+import { UpdateModeEnum } from 'chart.js';
 
 @Component({
     selector: 'app-task-endpoints',
@@ -93,6 +96,7 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
   filteredTasks: any[] = [];
   nameFilterValue:string=''
   dataSource = new MatTableDataSource<any>([]);
+  taskSubscription!:Subscription
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -155,17 +159,21 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     this.modalRef.close();
     
     this.snackBar.open('Task deleted successfully!', 'Close', {
-      duration: 3000,
-      verticalPosition: 'top',
-    });
-  }
-  opendeletemodal(deletetaskmodal: TemplateRef<any>, task: any) {
-    this.isAddingTask = false;
-    this.selectedTask = { ...task };
-    this.modalRef = this.modalService.open(deletetaskmodal, {
-      ariaLabelledBy: 'modal-basic-title',
-    });
-  }
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+
+
+    }
+    opendeletemodal(deletetaskmodal: TemplateRef<any>, task: any) {
+        this.isAddingTask = false;
+        this.selectedTask = { ...task };
+        this.modalRef = this.modalService.open(deletetaskmodal, {
+          ariaLabelledBy: 'modal-basic-title',
+        });
+      }
+
+  
 
   openupdatetask(AddorUpdateTaskModal: TemplateRef<any>, task: any) {
     this.isAddingTask = false;
@@ -206,8 +214,8 @@ export class TaskEndpointsComponent implements OnInit, AfterViewInit {
     
     this.snackBar.open('Task updated successfully!', 'Close', {
       duration: 3000,
-      verticalPosition: 'top',
-    });
+       verticalPosition: 'top',
+     });
   }
   filterByName(name: string) {
     const filteredTasks = this.tasks.filter((task: any) =>

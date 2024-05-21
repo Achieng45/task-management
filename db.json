@@ -31,7 +31,7 @@
     {
       "name": "toast message",
       "description": "Using snackbar",
-      "status": "Pending",
+      "status": "Completed",
       "id": "a1ff"
     },
     {
@@ -41,28 +41,28 @@
       "status": "Completed"
     },
     {
-      "id": "0364",
       "name": "Smart Insure",
       "description": "Css",
-      "status": "Cancelled"
+      "status": "Completed",
+      "id": "0364"
     },
     {
-      "id": "3d83",
       "name": "Modal",
       "description": "Creating task",
-      "status": "Completed"
+      "status": "Cancelled",
+      "id": "3d83"
     },
     {
       "name": "Angular",
       "description": "Reusing components",
-      "status": "Completed",
+      "status": "Cancelled",
       "id": "67be"
     },
     {
-      "id": "c6a1",
       "name": "Angular",
       "description": "Using snackbar",
-      "status": "Cancelled"
+      "status": "Pending",
+      "id": "c6a1"
     },
     {
       "id": "17d5",
@@ -71,27 +71,9 @@
       "status": "Cancelled"
     },
     {
-      "name": "Filter tasks",
-      "description": "Deletion",
-      "status": "Cancelled",
-      "id": "a350"
-    },
-    {
-      "id": "f68d",
-      "name": "smart insure",
-      "description": "css",
-      "status": "Completed"
-    },
-    {
-      "name": "Angular status",
-      "description": "Status management",
-      "status": "Completed",
-      "id": "95a1"
-    },
-    {
       "name": "modals",
       "description": "Adding in realtime",
-      "status": "Pending",
+      "status": "Completed",
       "id": "a731"
     },
     {

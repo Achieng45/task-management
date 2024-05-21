@@ -43,6 +43,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { AnalyticsComponent } from "./analytics/analytics.component";
 import { ChartModule, } from 'angular-highcharts';
+import { StateService } from './state.service';
+import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -72,7 +75,8 @@ import { ChartModule, } from 'angular-highcharts';
         MatInputModule,
         MatSelectModule,
         AnalyticsComponent,
-        ChartModule
+        ChartModule,
+        RouterModule
     ]
 })
 export class AppComponent implements OnInit  {
@@ -88,7 +92,14 @@ export class AppComponent implements OnInit  {
   selectedStatus: string = '';
   nameFilterValue:string='';
   showfilterdrawer: boolean = false;
+  isAddingTask:boolean=true;
   dataSource=new MatTableDataSource<any>([]);
+  selectedTask: any = {
+    name: '',
+    description: '',
+    status: '',
+  };
+  taskSubscription!:Subscription
   @ViewChild(TaskEndpointsComponent) taskEndpoints!: TaskEndpointsComponent;
 
   nameFilterCtrl!: FormControl;
@@ -96,10 +107,12 @@ export class AppComponent implements OnInit  {
     private modalService: NgbModal,
     private taskservice: TaskServiceService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private stateservice:StateService
+
   ) {}
   ngOnInit(): void {
-    this.loadTasks();
+    
     this.nameFilterCtrl = this.fb.control('');
     this.taskform = this.fb.group({
       name: ['', Validators.required],
@@ -109,22 +122,26 @@ export class AppComponent implements OnInit  {
     this.namectrl = this.taskform.get('name');
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
+    this.stateservice.tasks$.subscribe(tasks=>{this.tasks=tasks});
+    this.loadTasks();
+  
   }
 
+
   addTask() {
-    this.taskservice.createTask(this.taskform.value).subscribe((response) => {
-      this.tasks.push(response);
-      this.taskEndpoints.applyFilter(this.nameFilterValue,this.selectedStatus);
+    this.stateservice.addTask(this.taskform.value);
       this.taskform.reset();
       this.modalRef.close();
-    });
-    this.snackBar.open('Task added successfully!', 'Close', {
+      this.snackBar.open('Task added successfully!', 'Close', {
       duration: 3000,
       verticalPosition: 'top',
     });
   }
   openAddTaskModal(AddorUpdateTaskModal: TemplateRef<any>) {
+    this.isAddingTask=true
     this.action = 'add';
+    this.selectedTask={};
+    this.taskform.reset();
     this.modalRef = this.modalService.open(AddorUpdateTaskModal, {
       ariaLabelledBy: 'modal-basic-title',
     });
@@ -133,11 +150,11 @@ export class AppComponent implements OnInit  {
   UpdateTask() {}
 
    loadTasks(): void {
-    this.taskservice.getTasks().subscribe(
-      (data: any) => {
-        this.tasks = data;
+    this.taskSubscription=this.stateservice.tasks$.subscribe(
+      (tasks: any) => {
+        this.tasks ;
         this.taskEndpoints.applyFilter(this.selectedStatus,this.nameFilterValue);
-       
+        
       
       },
       (error: any) => {

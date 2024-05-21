@@ -105,6 +105,10 @@ export class TaskbarComponent implements OnInit {
     this.namectrl = this.taskform.get('name');
     this.descriptionctrl = this.taskform.get('description');
     this.statusctrl = this.taskform.get('status');
+    // this.stateservice.tasks$.subscribe(tasks=>{
+    //   this.tasks=tasks;
+    // });
+    // this.loadTasks();
   }
 
   addTask() {
